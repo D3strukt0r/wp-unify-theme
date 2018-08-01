@@ -89,6 +89,9 @@ class UnifySite extends \Timber\Site
 
         // Add theme support for selective refresh for widgets.
         add_theme_support('customize-selective-refresh-widgets');
+
+        // WooCommerce setup
+        add_theme_support('woocommerce');
     }
 
     function add_stylesheets()
@@ -233,6 +236,15 @@ EOF;
         //$twig->addFilter('myfoo', new Twig_SimpleFilter('myfoo', array($this, 'myfoo')));
 
         return $twig;
+    }
+}
+
+function timber_set_product($post)
+{
+    global $product;
+
+    if (is_woocommerce()) {
+        $product = wc_get_product($post->ID);
     }
 }
 
