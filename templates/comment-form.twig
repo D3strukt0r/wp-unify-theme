@@ -1,0 +1,28 @@
+<h3 class="h6 g-color-black g-font-weight-600 text-uppercase g-mb-30">Add Comment</h3>
+<span id="respond"></span>
+<form id="form" class="comment-form" method="post" action="{{ site.site_url~'/wp-comments-post.php' }}">
+    <input name="comment_post_ID" value="{{ post.id }}" id="comment_post_ID" type="hidden">
+    <input name="comment_parent" id="comment_parent" value="{{ comment.ID|default('0') }}" type="hidden">
+    {% if user %}
+        <input type="hidden" name="email" value="{{ user.email }}">
+        <input type="hidden" name="author" value="{{ user.name }}">
+        <input type="hidden" name="url" value="{{ user.link }}">
+    {% else %}
+        <div class="row">
+            <div class="col-md-6 form-group g-mb-30">
+                <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--focus rounded-3 g-py-13 g-px-15" required name="email" type="email" placeholder="Email" />
+            </div>
+            <div class="col-md-6 form-group g-mb-30">
+                <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--focus rounded-3 g-py-13 g-px-15" required name="author" type="text" placeholder="Username" />
+            </div>
+            <div class="col-md-6 form-group g-mb-30">
+                <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--focus rounded-3 g-py-13 g-px-15" required name="url" type="url" placeholder="URL" />
+            </div>
+        </div>
+    {% endif %}
+    <div class="g-mb-30">
+        <textarea class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--focus g-resize-none rounded-3 g-py-13 g-px-15" name="comment" rows="12" placeholder="Your message"></textarea>
+        <p>Your comment will be revised by the site if needed.</p>
+    </div>
+    <button class="btn u-btn-primary g-font-weight-600 g-font-size-12 text-uppercase g-py-12 g-px-25" type="submit" name="Submit" role="button">Add Comment</button>
+</form>

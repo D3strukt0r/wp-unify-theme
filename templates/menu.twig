@@ -1,0 +1,41 @@
+{% if menu %}
+    {# Root menu #}
+    {% if level == 0 %}
+        <ul class="navbar-nav text-uppercase g-font-weight-600 ml-auto">
+            {% for item in menu %}
+                <li class="nav-item {% if item.has_child_class %}hs-has-sub-menu{% endif %} g-mx-20--lg {% if item.current %}active{% endif %} {{ item.classes | join(' ') }}">
+                    {% if item.has_child_class %}
+                        <a href="#" class="nav-link g-px-0" id="nav-link-1" aria-haspopup="true" aria-expanded="false" aria-controls="nav-submenu-1">{{ item.title }}</a>
+                    {% else %}
+                        <a target="{{ item.target }}" href="{{ item.link }}" class="nav-link px-0">{{ item.title }}</a>
+                    {% endif %}
+                    {% if item.current %}<span class="sr-only">(current)</span>{% endif %}
+                    {% include 'menu.twig' with {'menu': item.get_children, 'level': level + 1} %}
+                </li>
+            {% endfor %}
+        </ul>
+    {# Submenu #}
+    {% elseif level == 1 %}
+        <ul class="hs-sub-menu list-unstyled g-text-transform-none g-brd-top g-brd-primary g-brd-top-2 g-min-width-200 g-mt-20 g-mt-10--lg--scrolling" id="nav-submenu-1" aria-labelledby="nav-link-1">
+            {% for item in menu %}
+                <li class="dropdown-item {% if item.has_child_class %}hs-has-sub-menu{% endif %} {% if item.current %}active{% endif %} {{ item.classes | join(' ') }}">
+                    {% if item.has_child_class %}
+                        <a id="nav-link-2" class="nav-link g-px-0" href="#" aria-haspopup="true" aria-expanded="false" aria-controls="nav-submenu-2">{{ item.title }}</a>
+                    {% else %}
+                        <a target="{{ item.target }}" href="{{ item.link }}" class="nav-link g-px-0">{{ item.title }}</a>
+                    {% endif %}
+                    {% include 'menu.twig' with {'menu': item.get_children, 'level': level + 1} %}
+                </li>
+            {% endfor %}
+        </ul>
+    {# Submenu for the submenu #}
+    {% else %}
+        <ul class="hs-sub-menu list-unstyled g-brd-top g-brd-primary g-brd-top-2 g-min-width-200 g-my-2" id="nav-submenu-2" aria-labelledby="nav-link-2">
+            {% for item in menu %}
+                <li class="dropdown-item {% if item.current %}active{% endif %} {{ item.classes | join(' ') }}">
+                    <a target="{{ item.target }}" href="{{ item.link }}" class="nav-link g-px-0">{{ item.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}

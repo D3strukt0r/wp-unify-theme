@@ -1,48 +1,38 @@
-<?php get_header(); ?>
+<?php
+/**
+ * The template for displaying Archive pages.
+ *
+ * Used to display archive-type pages if nothing more specific matches a query.
+ * For example, puts together date-based pages if no date.php file exists.
+ *
+ * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package     WordPress
+ * @subpackage  Timber
+ * @since       Timber 0.2
+ */
 
-<!-- Content -->
-<section class="g-py-50">
-    <div class="container">
-        <?php if ( have_posts() ) : ?>
-            <header class="page-header">
-                <?php
-                    the_archive_title( '<h1 class="page-title">', '</h1>' );
-                    the_archive_description( '<div class="taxonomy-description">', '</div>' );
-                ?>
-            </header><!-- .page-header -->
-        <?php endif; ?>
+$templates = array('archive.twig', 'index.twig');
 
-        <div id="primary" class="content-area">
-            <main id="main" class="site-main" role="main">
+$context = \Timber\Timber::get_context();
 
-            <?php
-            if ( have_posts() ) : ?>
-                <?php
-                /* Start the Loop */
-                while ( have_posts() ) : the_post();
+$context['title'] = 'Archive';
+if (is_day()) {
+    $context['title'] = 'Archive: '.get_the_date('D M Y');
+} elseif (is_month()) {
+    $context['title'] = 'Archive: '.get_the_date('M Y');
+} elseif (is_year()) {
+    $context['title'] = 'Archive: '.get_the_date('Y');
+} elseif (is_tag()) {
+    $context['title'] = single_tag_title('', false);
+} elseif (is_category()) {
+    $context['title'] = single_cat_title('', false);
+    array_unshift($templates, 'archive-'.get_query_var('cat').'.twig');
+} elseif (is_post_type_archive()) {
+    $context['title'] = post_type_archive_title('', false);
+    array_unshift($templates, 'archive-'.get_post_type().'.twig');
+}
 
-                    /*
-                     * Include the Post-Format-specific template for the content.
-                     * If you want to override this in a child theme, then include a file
-                     * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-                     */
-                    get_template_part( 'template-parts/post/content', get_post_format() );
+$context['posts'] = new Timber\PostQuery();
 
-                endwhile;
-
-                the_posts_pagination();
-
-            else :
-
-                get_template_part( 'template-parts/post/content', 'none' );
-
-            endif; ?>
-
-            </main><!-- #main -->
-        </div><!-- #primary -->
-        <?php get_sidebar(); ?>
-    </div>
-</section>
-<!-- End Content -->
-
-<?php get_footer();
+\Timber\Timber::render($templates, $context);

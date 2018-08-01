@@ -1,24 +1,17 @@
 <?php
+/**
+ * Third party plugins that hijack the theme will call wp_footer() to get the footer template.
+ * We use this to end our output buffer (started in header.php) and render into the view/page-plugin.twig template.
+ *
+ * If you're not using a plugin that requires this behavior (ones that do include Events Calendar Pro and
+ * WooCommerce) you can delete this file and header.php
+ */
 
-$requestedFooter = 'classic'; // TODO: Customizable by user
-
-?>
-    <?php get_template_part('template-parts/footer/footer', $requestedFooter); ?>
-
-    <!-- Go To Top -->
-    <a class="js-go-to u-go-to-v1" href="#"
-       data-type="fixed"
-       data-position='{
-           "bottom": 15,
-           "right": 15
-         }'
-       data-offset-top="300"
-       data-compensation="#js-header"
-       data-show-effect="zoomIn">
-        <i class="hs-icon hs-icon-arrow-top"></i>
-    </a>
-    <!-- End Go To Top -->
-</main>
-<?php wp_footer(); ?>
-</body>
-</html>
+$timberContext = $GLOBALS['timberContext'];
+if (!isset($timberContext)) {
+    throw new \Exception('Timber context not set in footer.');
+}
+$timberContext['content'] = ob_get_contents();
+ob_end_clean();
+$templates = array('page-plugin.twig');
+\Timber\Timber::render($templates, $timberContext);

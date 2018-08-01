@@ -1,46 +1,18 @@
 <?php
+/**
+ * The Template for displaying all single posts
+ *
+ * @package     WordPress
+ * @subpackage  Timber
+ * @since       Timber 0.1
+ */
 
-get_header();
+$context         = \Timber\Timber::get_context();
+$post            = \Timber\Timber::query_post();
+$context['post'] = $post;
 
-while (have_posts()) {
-    the_post();
-
-?>
-
-<!-- Content -->
-<section class="g-py-50">
-    <div class="container">
-        <pre>single.php</pre><hr />
-        <?php
-
-        get_template_part('template-parts/post/content', get_post_format());
-
-        the_post_navigation();
-
-        ?>
-    </div>
-</section>
-<!-- End Content -->
-
-<!-- Blog Single Item Comments -->
-<section class="container g-py-100">
-    <div class="row justify-content-center">
-        <div class="col-lg-9">
-            <?php
-
-            // If comments are open or we have at least one comment, load up the comment template.
-            if (comments_open() || get_comments_number()) {
-                comments_template();
-            }
-
-            ?>
-        </div>
-    </div>
-</section>
-<!-- End Blog Single Item Comments -->
-
-<?php
-
+if (post_password_required($post->ID)) {
+    \Timber\Timber::render('single-password.twig', $context);
+} else {
+    \Timber\Timber::render(array('single-'.$post->ID.'.twig', 'single-'.$post->post_type.'.twig', 'single.twig'), $context);
 }
-
-get_footer();

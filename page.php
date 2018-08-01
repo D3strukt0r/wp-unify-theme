@@ -1,25 +1,25 @@
-<?php get_header(); ?>
+<?php
+/**
+ * The template for displaying all pages.
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site will use a
+ * different template.
+ *
+ * To generate specific templates for your pages you can use:
+ * /mytheme/views/page-mypage.twig
+ * (which will still route through this PHP file)
+ * OR
+ * /mytheme/page-mypage.php
+ * (in which case you'll want to duplicate this file and save to the above path)
+ *
+ * @package     WordPress
+ * @subpackage  Timber
+ * @since       Timber 0.1
+ */
 
-<!-- Content -->
-<section class="g-py-50">
-	<div class="container">
-        <pre>page.php</pre><hr />
-		<?php
-
-        while (have_posts()) {
-            the_post();
-
-            get_template_part('template-parts/page/content', 'page');
-
-            // If comments are open or we have at least one comment, load up the comment template.
-            if (comments_open() || get_comments_number()) {
-                comments_template();
-            }
-        }
-
-		?>
-	</div>
-</section>
-<!-- End Content -->
-
-<?php get_footer(); ?>
+$context         = \Timber\Timber::get_context();
+$post            = new \Timber\Post();
+$context['post'] = $post;
+\Timber\Timber::render(array('page-'.$post->post_name.'.twig', 'page.twig'), $context);

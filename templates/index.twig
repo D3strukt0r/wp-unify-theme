@@ -1,0 +1,24 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <div class="container g-pt-100 g-pb-20">
+        <div class="row justify-content-between">
+            <div class="col-lg-9 g-mb-80">
+                <div class="g-pr-20--lg">
+                    {% for post in posts %}
+                        {% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
+                    {% endfor %}
+
+                    {% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %}
+                </div>
+            </div>
+
+            <div class="col-lg-3 g-brd-left--lg g-brd-gray-light-v4 g-mb-80">
+                <div class="g-pl-20--lg">
+                    {% include 'sidebar.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Blog Minimal Blocks -->
+{% endblock %}

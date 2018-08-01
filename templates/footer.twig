@@ -1,0 +1,90 @@
+{% if function('is_active_sidebar', 'footer-1') or function('is_active_sidebar', 'footer-2') or function('is_active_sidebar', 'footer-3') or function('is_active_sidebar', 'footer-4') %}
+<!-- Footer -->
+<div class="g-bg-black-opacity-0_9 g-color-white-opacity-0_8 g-py-60">
+    <div class="container">
+        <div class="row">
+            <!-- Footer Content -->
+            <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
+                {{ dynamic_sidebar.footer_1 }}
+            </div>
+            <!-- End Footer Content -->
+
+            <!-- Footer Content -->
+            <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
+                {{ dynamic_sidebar.footer_2 }}
+            </div>
+            <!-- End Footer Content -->
+
+            <!-- Footer Content -->
+            <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
+                {{ dynamic_sidebar.footer_3 }}
+            </div>
+            <!-- End Footer Content -->
+
+            <!-- Footer Content -->
+            <div class="col-lg-3 col-md-6">
+                {{ dynamic_sidebar.footer_4 }}
+            </div>
+            <!-- End Footer Content -->
+        </div>
+    </div>
+</div>
+<!-- End Footer -->
+{% endif %}
+
+<!-- Copyright Footer -->
+<footer class="g-bg-gray-dark-v1 g-color-white-opacity-0_8 g-py-20">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 text-center text-md-left g-mb-15 g-mb-0--md">
+                <div class="d-lg-flex">
+                    <small class="d-block g-font-size-default g-mr-10 g-mb-10 g-mb-0--md">{{ 'now'|date('Y') }} © <a href="{{ site.url }}">{{ site.name }}</a>. All Rights Reserved.</small>
+                    {% if menu.legal.get_items %}
+                        <ul class="u-list-inline">
+                            {% set first = true %}
+                            {% for item in menu.legal.get_items %}
+                                {% if not first %}
+                                    <li class="list-inline-item">
+                                        <span>|</span>
+                                    </li>
+                                {% endif %}
+                                {% set first = false %}
+                                <li class="list-inline-item">
+                                    <a href="{{ item.link }}">{{ item.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+            {% if menu.social.get_items %}
+                <div class="col-md-4 align-self-center">
+                    <ul class="list-inline text-center text-md-right mb-0">
+                        {% for item in menu.social.get_items %}
+                            <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="{{ item.title }}">
+                                <a href="{{ item.link }}" class="g-color-white-opacity-0_5 g-color-white--hover">
+                                    {{ item.post_content }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</footer>
+<!-- End Copyright Footer -->
+
+<!-- Go To Top -->
+<a class="js-go-to u-go-to-v1" href="#"
+   data-type="fixed"
+   data-position='{
+           "bottom": 15,
+           "right": 15
+         }'
+   data-offset-top="300"
+   data-compensation="#js-header"
+   data-show-effect="zoomIn">
+    <i class="hs-icon hs-icon-arrow-top"></i>
+</a>
+<!-- End Go To Top -->
