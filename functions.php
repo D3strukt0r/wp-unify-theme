@@ -16,7 +16,7 @@ if (!class_exists('Timber')) {
 
 class UnifySite extends \Timber\Site
 {
-    function __construct()
+    public function __construct()
     {
         add_action('after_setup_theme', array($this, 'add_theme_supports'));
 
@@ -40,7 +40,7 @@ class UnifySite extends \Timber\Site
         parent::__construct();
     }
 
-    function add_theme_supports()
+    public function add_theme_supports()
     {
         /*
          * Using a custom logo allows site owners to upload an image for their website, which can be
@@ -94,7 +94,7 @@ class UnifySite extends \Timber\Site
         add_theme_support('woocommerce');
     }
 
-    function add_stylesheets()
+    public function add_stylesheets()
     {
         wp_enqueue_style('unify-css-boostrap',     get_stylesheet_directory_uri().'/static/vendor/bootstrap/bootstrap.min.css', array(), wp_get_theme()->get('Version'));
         wp_enqueue_style('unify-css-icon-hs',      get_stylesheet_directory_uri().'/static/vendor/icon-hs/style.css', array(), wp_get_theme()->get('Version'));
@@ -105,7 +105,7 @@ class UnifySite extends \Timber\Site
         wp_enqueue_style('unify-css-unify',        get_stylesheet_directory_uri().'/static/css/unify.css', array(), wp_get_theme()->get('Version'));
     }
 
-    function add_javascript()
+    public function add_javascript()
     {
         wp_enqueue_script('unify-js-jquery',        get_stylesheet_directory_uri().'/static/vendor/jquery/jquery.min.js', array(), wp_get_theme()->get('Version'), false);
         wp_enqueue_script('unify-js-jquery-migrate',get_stylesheet_directory_uri().'/static/vendor/jquery-migrate/jquery-migrate.min.js', array(), wp_get_theme()->get('Version'), true);
@@ -118,7 +118,7 @@ class UnifySite extends \Timber\Site
         wp_enqueue_script('unify-js-hs.go-to',      get_stylesheet_directory_uri().'/static/js/components/hs.go-to.js', array(), wp_get_theme()->get('Version'), true);
     }
 
-    function add_default_script()
+    public function add_default_script()
     {
         echo <<<EOF
 <script>
@@ -143,7 +143,7 @@ class UnifySite extends \Timber\Site
 EOF;
     }
 
-    function add_widgets()
+    public function add_widgets()
     {
         register_sidebar(array(
             'name'          => 'Sidebar',
@@ -192,22 +192,22 @@ EOF;
         ));
     }
 
-    function add_editor_style()
+    public function add_editor_style()
     {
         add_editor_style('custom-editor-style.css');
     }
 
-    function register_post_types()
+    public function register_post_types()
     {
         // this is where you can register custom post types
     }
 
-    function register_taxonomies()
+    public function register_taxonomies()
     {
         // this is where you can register custom taxonomies
     }
 
-    function add_to_context($context)
+    public function add_to_context($context)
     {
         // I am a value set in your functions.php file
         // These values are available everytime you call Timber::get_context();
@@ -229,7 +229,7 @@ EOF;
      *
      * @return mixed
      */
-    function add_to_twig($twig)
+    public function add_to_twig($twig)
     {
         /* this is where you can add your own functions to twig */
         $twig->addExtension(new Twig_Extension_StringLoader());
